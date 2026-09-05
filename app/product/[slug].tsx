@@ -2,17 +2,11 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
-import {
-  Alert,
-  Linking,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { Alert, Linking, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import GlassButton from '../../components/GlassButton';
+import InfoSheet from '../../components/InfoSheet';
 import ProductHero from '../../components/ProductHero';
 import SpacesModal from '../../components/SpacesModal';
 import { getProductPhotos, getSpacePhotos } from '../../constants/photos';
@@ -25,6 +19,7 @@ export default function ProductScreen() {
   const insets = useSafeAreaInsets();
   const product = findProduct(slug ?? '');
   const [spacesOpen, setSpacesOpen] = useState(false);
+  const [infoOpen, setInfoOpen] = useState(false);
 
   if (!product) {
     return (
@@ -56,88 +51,74 @@ export default function ProductScreen() {
   const needsCareNote = product.type === 'marble' || product.type === 'onyx';
 
   return (
-    <>
-      <ScrollView
-        style={styles.screen}
-        contentContainerStyle={styles.content}
-        showsVerticalScrollIndicator={false}
-      >
-        <View>
-          <ProductHero
-            slug={product.slug}
-            name={product.name}
-            photos={getProductPhotos(product.slug)}
-          />
+    <View style={styles.screen}>
+      <ProductHero
+        slug={product.slug}
+        name={product.name}
+        photos={getProductPhotos(product.slug)}
+      />
 
-          {/* Transparent overlay header, floating over the hero photo. */}
-          <View style={[styles.overlayHeader, { top: insets.top + spacing.sm }]}>
-            <Pressable
-              onPress={() => router.back()}
-              hitSlop={10}
-              accessibilityRole="button"
-              accessibilityLabel="Go back"
-              style={styles.circleButton}
-            >
-              <Ionicons name="arrow-back" size={20} color={colors.text} />
-            </Pressable>
+      {/* Transparent overlay header, floating over the full-screen photo. */}
+      <View style={[styles.overlayHeader, { top: insets.top + spacing.sm }]}>
+        <GlassButton
+          icon="arrow-back"
+          onPress={() => router.back()}
+          accessibilityLabel="Go back"
+        />
 
-            <View style={styles.titlePill}>
-              <Text style={styles.titlePillCategory}>
-                {categoryLabel(product.category)}
-              </Text>
-              <Text style={styles.titlePillName} numberOfLines={1}>
-                {product.name}
-              </Text>
+        <View style={styles.titleBlock}>
+          <Text style={styles.name} numberOfLines={1}>
+            {product.name}
+          </Text>
+          <View style={styles.categoryRow}>
+            <View style={styles.categoryBadge}>
+              <Text style={styles.categoryText}>{categoryLabel(product.category)}</Text>
             </View>
-          </View>
-
-          {/* Floating Call · In Spaces · WhatsApp row, overlapping the photo's bottom edge. */}
-          <View style={styles.floatingActions}>
-            <LinearGradient
-              pointerEvents="none"
-              colors={['transparent', 'rgba(6,6,7,0.65)']}
-              style={styles.floatingActionsScrim}
+            <GlassButton
+              icon="information"
+              size={32}
+              onPress={() => setInfoOpen(true)}
+              accessibilityLabel={`About ${product.name}`}
             />
-            <Pressable
-              style={[styles.actionCircle, { backgroundColor: colors.call }]}
-              onPress={callUs}
-              accessibilityRole="button"
-              accessibilityLabel="Call us"
-            >
-              <Ionicons name="call" size={22} color={colors.text} />
-            </Pressable>
-
-            <Pressable
-              style={[styles.actionCircle, styles.actionCircleLarge, { backgroundColor: colors.gold }]}
-              onPress={() => setSpacesOpen(true)}
-              accessibilityRole="button"
-              accessibilityLabel={`See ${product.name} in spaces`}
-            >
-              <Ionicons name="images" size={24} color={colors.bg} />
-            </Pressable>
-
-            <Pressable
-              style={[styles.actionCircle, { backgroundColor: colors.whatsapp }]}
-              onPress={messageUs}
-              accessibilityRole="button"
-              accessibilityLabel="Message us on WhatsApp"
-            >
-              <Ionicons name="logo-whatsapp" size={22} color={colors.text} />
-            </Pressable>
           </View>
         </View>
+      </View>
 
-        <View style={styles.details}>
-          <Text style={styles.description}>{product.description}</Text>
+      {/* Floating glass action bar, pinned near the bottom of the screen. */}
+      <View style={[styles.floatingActions, { bottom: insets.bottom + spacing.xl }]}>
+        <LinearGradient
+          pointerEvents="none"
+          colors={['transparent', 'rgba(6,6,7,0.55)']}
+          style={styles.floatingActionsScrim}
+        />
+        <GlassButton
+          icon="call"
+          onPress={callUs}
+          accessibilityLabel="Call us"
+        />
+        <GlassButton
+          icon="images"
+          size={58}
+          tint="rgba(201, 162, 39, 0.4)"
+          onPress={() => setSpacesOpen(true)}
+          accessibilityLabel={`See ${product.name} in spaces`}
+        />
+        <GlassButton
+          icon="logo-whatsapp"
+          tint="rgba(37, 211, 102, 0.4)"
+          onPress={messageUs}
+          accessibilityLabel="Message us on WhatsApp"
+        />
+      </View>
 
-          {needsCareNote && (
-            <View style={styles.careNote}>
-              <Ionicons name="information-circle-outline" size={18} color={colors.gold} />
-              <Text style={styles.careNoteText}>{CARE_NOTE}</Text>
-            </View>
-          )}
-        </View>
-      </ScrollView>
+      <InfoSheet
+        visible={infoOpen}
+        onClose={() => setInfoOpen(false)}
+        categoryLabel={categoryLabel(product.category)}
+        name={product.name}
+        description={product.description}
+        careNote={needsCareNote ? CARE_NOTE : undefined}
+      />
 
       <SpacesModal
         visible={spacesOpen}
@@ -145,13 +126,12 @@ export default function ProductScreen() {
         stoneName={product.name}
         photos={getSpacePhotos(product.slug)}
       />
-    </>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.bg },
-  content: { paddingBottom: spacing.xxl },
 
   overlayHeader: {
     position: 'absolute',
@@ -162,93 +142,53 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     gap: spacing.md,
   },
-  circleButton: {
-    width: 38,
-    height: 38,
-    borderRadius: radius.pill,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'rgba(14, 14, 16, 0.55)',
-  },
-  titlePill: {
+  titleBlock: {
     flexShrink: 1,
     alignItems: 'flex-end',
+  },
+  name: {
+    ...type.title,
+    color: colors.text,
+    textShadowColor: 'rgba(0,0,0,0.6)',
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 6,
+  },
+  categoryRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+    marginTop: spacing.xs,
+  },
+  categoryBadge: {
     paddingHorizontal: spacing.md,
-    paddingVertical: spacing.xs,
-    borderRadius: radius.md,
+    paddingVertical: 4,
+    borderRadius: radius.pill,
+    borderWidth: 1,
+    borderColor: colors.gold,
     backgroundColor: 'rgba(14, 14, 16, 0.55)',
   },
-  titlePillCategory: {
+  categoryText: {
     ...type.caption,
+    fontSize: 11,
+    fontWeight: '700',
     color: colors.goldSoft,
-    fontSize: 10,
-    letterSpacing: 1,
-  },
-  titlePillName: {
-    ...type.heading,
-    color: colors.text,
-    marginTop: 1,
   },
 
   floatingActions: {
     position: 'absolute',
-    bottom: -26,
     left: 0,
     right: 0,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     gap: spacing.xl,
-    paddingTop: spacing.xxl,
   },
   floatingActionsScrim: {
     position: 'absolute',
     left: 0,
     right: 0,
-    bottom: 26,
-    height: 70,
-  },
-  actionCircle: {
-    width: 48,
-    height: 48,
-    borderRadius: radius.pill,
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOpacity: 0.3,
-    shadowRadius: 6,
-    shadowOffset: { width: 0, height: 3 },
-    elevation: 4,
-  },
-  actionCircleLarge: {
-    width: 56,
-    height: 56,
-  },
-
-  details: {
-    padding: spacing.lg,
-    paddingTop: spacing.xxl + spacing.md,
-  },
-  description: {
-    ...type.body,
-    color: colors.textMuted,
-  },
-
-  careNote: {
-    flexDirection: 'row',
-    gap: spacing.sm,
-    marginTop: spacing.xl,
-    padding: spacing.lg,
-    borderRadius: radius.md,
-    backgroundColor: colors.surface,
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-  careNoteText: {
-    ...type.caption,
-    color: colors.textMuted,
-    flex: 1,
-    lineHeight: 19,
+    top: -70,
+    bottom: -20,
   },
 
   missing: {

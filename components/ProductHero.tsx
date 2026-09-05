@@ -27,7 +27,7 @@ interface ProductHeroProps {
  * placeholder frame so the layout holds before photos are added.
  */
 export default function ProductHero({ name, photos }: ProductHeroProps) {
-  const { width } = useWindowDimensions();
+  const { width, height } = useWindowDimensions();
   const [index, setIndex] = useState(0);
   const frames = photos.length > 0 ? photos : [null];
 
@@ -40,7 +40,7 @@ export default function ProductHero({ name, photos }: ProductHeroProps) {
 
   const renderFrame = useCallback(
     ({ item }: ListRenderItemInfo<ImageSourcePropType | null>) => (
-      <View style={[styles.frame, { width }]}>
+      <View style={[styles.frame, { width, height }]}>
         {item ? (
           <Image source={item} style={styles.image} resizeMode="cover" />
         ) : (
@@ -52,11 +52,12 @@ export default function ProductHero({ name, photos }: ProductHeroProps) {
         )}
       </View>
     ),
-    [width, name]
+    [width, height, name]
   );
 
   return (
-    <View>
+    <View style={{ height }}>
+
       <FlatList
         data={frames}
         keyExtractor={(_, i) => String(i)}
@@ -81,7 +82,6 @@ export default function ProductHero({ name, photos }: ProductHeroProps) {
 
 const styles = StyleSheet.create({
   frame: {
-    aspectRatio: 4 / 3,
     backgroundColor: colors.surfaceRaised,
   },
   image: { width: '100%', height: '100%' },

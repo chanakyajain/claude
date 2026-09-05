@@ -33,10 +33,8 @@ import { productsByCategory, type CategoryKey } from './products';
 
 /** Slug → one or more slab photos, shown as a swipeable gallery. */
 export const productPhotos: Record<string, ImageSourcePropType[]> = {
-  // 'tan-brown': [
-  //   require('../assets/stones/tan-brown-1.jpg'),
-  //   require('../assets/stones/tan-brown-2.jpg'),
-  // ],
+  // Temporary placeholder while the owner gathers the final catalogue photos.
+  'alaska-white': [require('../assets/stones/alaska-white-1.jpg')],
 };
 
 /** Slug → up to 3 photos of the stone applied in real spaces. */
