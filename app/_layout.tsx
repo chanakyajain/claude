@@ -20,10 +20,7 @@ export default function RootLayout() {
           }}
         >
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="product/[slug]"
-            options={{ title: '', headerBackTitle: 'Back' }}
-          />
+          <Stack.Screen name="product/[slug]" options={{ headerShown: false }} />
         </Stack>
       </SafeAreaProvider>
     </GestureHandlerRootView>

@@ -43,14 +43,20 @@ npx expo start --tunnel
 The app runs with placeholders so nothing breaks while photos are still going
 in. You can add them a few at a time.
 
-**Slab photos** (the main picture on each product page):
+**Slab photos** (the swipeable gallery on each product page — one photo is enough, or add several):
 
-1. Put the image in `assets/stones/` — for example `assets/stones/tan-brown.jpg`
-2. Add one line to `stonePhotos` in `constants/photos.ts`:
+1. Put the image(s) in `assets/stones/` — for example `assets/stones/tan-brown-1.jpg`
+2. Add one entry to `productPhotos` in `constants/photos.ts`:
 
 ```ts
-'tan-brown': require('../assets/stones/tan-brown.jpg'),
+'tan-brown': [
+  require('../assets/stones/tan-brown-1.jpg'),
+  require('../assets/stones/tan-brown-2.jpg'),
+],
 ```
+
+The first photo in the list is also used as the stone's thumbnail in the
+Collection grid and as one of the 3 photos on its category tile.
 
 **"In Spaces" photos** (the 3-image carousel showing the stone installed):
 

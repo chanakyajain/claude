@@ -3,13 +3,9 @@ import { Link, useRouter } from 'expo-router';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import CategoryTile from '../../components/CategoryTile';
 import StoneImage from '../../components/StoneImage';
-import {
-  categories,
-  countByCategory,
-  findProduct,
-  products,
-} from '../../constants/products';
+import { categories, findProduct, products } from '../../constants/products';
 import { business, colors, radius, spacing, type } from '../../constants/theme';
 
 /** The stone shown in the featured slot on the home screen. */
@@ -34,18 +30,22 @@ export default function HomeScreen() {
         <Text style={styles.tagline}>Premium Granite Suppliers</Text>
       </View>
 
-      <Text style={styles.sectionLabel}>FEATURED</Text>
       <Pressable
         style={styles.featuredCard}
         onPress={() => router.push(`/product/${featured.slug}`)}
         accessibilityRole="button"
         accessibilityLabel={`View ${featured.name}`}
       >
-        <StoneImage
-          slug={featured.slug}
-          name={featured.name}
-          style={styles.featuredImage}
-        />
+        <View>
+          <StoneImage
+            slug={featured.slug}
+            name={featured.name}
+            style={styles.featuredImage}
+          />
+          <View style={styles.featuredBadge}>
+            <Text style={styles.featuredBadgeText}>FEATURED</Text>
+          </View>
+        </View>
         <View style={styles.featuredFooter}>
           <View style={{ flex: 1 }}>
             <Text style={styles.featuredName}>{featured.name}</Text>
@@ -67,12 +67,8 @@ export default function HomeScreen() {
             href={{ pathname: '/collection', params: { category: cat.key } }}
             asChild
           >
-            <Pressable style={styles.categoryCard}>
-              <Text style={styles.categoryCount}>{countByCategory(cat.key)}</Text>
-              <Text style={styles.categoryName}>{cat.label}</Text>
-              <Text style={styles.categoryBlurb} numberOfLines={2}>
-                {cat.blurb}
-              </Text>
+            <Pressable style={styles.categoryTilePressable}>
+              <CategoryTile category={cat} />
             </Pressable>
           </Link>
         ))}
@@ -103,11 +99,6 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
 
-  sectionLabel: {
-    ...type.label,
-    color: colors.textFaint,
-    marginBottom: spacing.sm,
-  },
   featuredCard: {
     borderRadius: radius.lg,
     borderWidth: 1,
@@ -117,6 +108,22 @@ const styles = StyleSheet.create({
     marginBottom: spacing.xxl,
   },
   featuredImage: { width: '100%', aspectRatio: 16 / 10 },
+  featuredBadge: {
+    position: 'absolute',
+    left: spacing.md,
+    bottom: spacing.md,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.xs,
+    borderRadius: radius.pill,
+    backgroundColor: colors.gold,
+  },
+  featuredBadgeText: {
+    ...type.caption,
+    fontSize: 11,
+    fontWeight: '800',
+    letterSpacing: 1,
+    color: colors.bg,
+  },
   featuredFooter: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -144,25 +151,9 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     gap: spacing.md,
   },
-  categoryCard: {
+  categoryTilePressable: {
     flexGrow: 1,
     flexBasis: '46%',
-    backgroundColor: colors.surface,
-    borderRadius: radius.md,
-    borderWidth: 1,
-    borderColor: colors.border,
-    padding: spacing.lg,
-  },
-  categoryCount: { ...type.display, color: colors.gold },
-  categoryName: {
-    ...type.heading,
-    color: colors.text,
-    marginTop: spacing.xs,
-  },
-  categoryBlurb: {
-    ...type.caption,
-    color: colors.textFaint,
-    marginTop: 2,
   },
 
   hoursCard: {

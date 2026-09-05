@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Image, StyleSheet, Text, View, type StyleProp, type ViewStyle } from 'react-native';
 
-import { getStonePhoto } from '../constants/photos';
+import { getThumbnail } from '../constants/photos';
 import { colors, spacing, type } from '../constants/theme';
 
 interface StoneImageProps {
@@ -13,11 +13,12 @@ interface StoneImageProps {
 }
 
 /**
- * Renders a stone's slab photo, falling back to a styled placeholder when no
- * photo has been registered yet — so the app runs with photos added over time.
+ * Renders a stone's thumbnail photo, falling back to a styled placeholder
+ * when no photo has been registered yet — so the app runs with photos
+ * added over time.
  */
 export default function StoneImage({ slug, name, style, compact }: StoneImageProps) {
-  const photo = getStonePhoto(slug);
+  const photo = getThumbnail(slug);
 
   if (photo) {
     return (
