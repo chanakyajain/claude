@@ -16,10 +16,10 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.gurugranite.myapp"
+      "bundleIdentifier": "com.gurukrupagranites.app"
     },
     "android": {
-      "package": "com.gurugranite.myapp",
+      "package": "com.gurukrupagranites.app",
       "adaptiveIcon": {
         "backgroundColor": "#0E0E10",
         "foregroundImage": "./assets/android-icon-foreground.png",
