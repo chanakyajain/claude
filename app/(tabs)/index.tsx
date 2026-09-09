@@ -1,5 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Link, useRouter } from 'expo-router';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -36,22 +37,30 @@ export default function HomeScreen() {
         accessibilityRole="button"
         accessibilityLabel={`View ${featured.name}`}
       >
-        <View>
-          <StoneImage
-            slug={featured.slug}
-            name={featured.name}
-            style={styles.featuredImage}
-          />
+        <StoneImage
+          slug={featured.slug}
+          name={featured.name}
+          style={styles.featuredImage}
+        />
+
+        {/* Scrim so the overlaid text stays legible over any photo. */}
+        <LinearGradient
+          pointerEvents="none"
+          colors={['transparent', 'rgba(6,6,7,0.45)', 'rgba(6,6,7,0.85)']}
+          locations={[0, 0.5, 1]}
+          style={styles.featuredScrim}
+        />
+
+        {/* Badge, name and hint float directly on the photo — no separate footer bar. */}
+        <View style={styles.featuredOverlay}>
           <View style={styles.featuredBadge}>
             <Text style={styles.featuredBadgeText}>FEATURED</Text>
           </View>
-        </View>
-        <View style={styles.featuredFooter}>
-          <View style={{ flex: 1 }}>
-            <Text style={styles.featuredName}>{featured.name}</Text>
+          <Text style={styles.featuredName}>{featured.name}</Text>
+          <View style={styles.featuredHintRow}>
             <Text style={styles.featuredHint}>Tap to view this granite</Text>
+            <Ionicons name="arrow-forward" size={18} color={colors.gold} />
           </View>
-          <Ionicons name="arrow-forward" size={20} color={colors.gold} />
         </View>
       </Pressable>
 
@@ -108,14 +117,26 @@ const styles = StyleSheet.create({
     marginBottom: spacing.xxl,
   },
   featuredImage: { width: '100%', aspectRatio: 16 / 10 },
-  featuredBadge: {
+  featuredScrim: {
     position: 'absolute',
-    left: spacing.md,
-    bottom: spacing.md,
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+  },
+  featuredOverlay: {
+    position: 'absolute',
+    left: spacing.lg,
+    right: spacing.lg,
+    bottom: spacing.lg,
+  },
+  featuredBadge: {
+    alignSelf: 'flex-start',
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.xs,
     borderRadius: radius.pill,
     backgroundColor: colors.gold,
+    marginBottom: spacing.md,
   },
   featuredBadgeText: {
     ...type.caption,
@@ -124,17 +145,19 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
     color: colors.bg,
   },
-  featuredFooter: {
+  featuredName: {
+    ...type.display,
+    color: colors.text,
+  },
+  featuredHintRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: spacing.md,
-    padding: spacing.lg,
+    gap: spacing.xs,
+    marginTop: spacing.xs,
   },
-  featuredName: { ...type.title, color: colors.text },
   featuredHint: {
     ...type.caption,
-    color: colors.textMuted,
-    marginTop: 2,
+    color: 'rgba(245, 245, 240, 0.75)',
   },
 
   sectionHeader: {

@@ -17,8 +17,6 @@ export type StoneType = 'granite' | 'marble' | 'onyx';
 export interface Category {
   key: CategoryKey;
   label: string;
-  /** Short line shown under the category name on the home screen. */
-  blurb: string;
 }
 
 export interface Product {
@@ -30,13 +28,13 @@ export interface Product {
 }
 
 export const categories: Category[] = [
-  { key: 'black-grey', label: 'Black & Grey', blurb: 'Deep, dramatic and timeless' },
-  { key: 'white', label: 'White', blurb: 'Bright, clean and versatile' },
-  { key: 'gold', label: 'Gold', blurb: 'Warm creams and honeyed tones' },
-  { key: 'green', label: 'Green', blurb: 'Natural, lush and calming' },
-  { key: 'red-brown-maroon', label: 'Red, Brown & Maroon', blurb: 'Rich, earthy and bold' },
-  { key: 'blue', label: 'Blue', blurb: 'Cool, deep and distinctive' },
-  { key: 'exotic', label: 'Exotic', blurb: 'Rare and statement-making' },
+  { key: 'black-grey', label: 'Black & Grey' },
+  { key: 'white', label: 'White' },
+  { key: 'gold', label: 'Gold' },
+  { key: 'green', label: 'Green' },
+  { key: 'red-brown-maroon', label: 'Red, Brown & Maroon' },
+  { key: 'blue', label: 'Blue' },
+  { key: 'exotic', label: 'Exotic' },
 ];
 
 /** Care note appended for softer, more porous stones. */

@@ -45,9 +45,6 @@ export default function CategoryTile({ category }: CategoryTileProps) {
       <View style={styles.textBlock}>
         <Text style={styles.count}>{count}</Text>
         <Text style={styles.name}>{category.label}</Text>
-        <Text style={styles.blurb} numberOfLines={1}>
-          {category.blurb}
-        </Text>
       </View>
     </View>
   );
@@ -99,5 +96,4 @@ const styles = StyleSheet.create({
   },
   count: { ...type.display, color: colors.gold },
   name: { ...type.heading, color: colors.text, marginTop: 2 },
-  blurb: { ...type.caption, color: colors.textMuted, marginTop: 2 },
 });
