@@ -113,9 +113,9 @@ export default function MenuSheet({ visible, onClose }: MenuSheetProps) {
               onPress={() => go('/locations')}
             />
             <MenuRow
-              icon="pricetag"
-              tint="#F77F88"
-              label="On Sale"
+              icon="flash"
+              tint="#FFD700"
+              label="Clearance Stock"
               onPress={() => go('/sales')}
             />
             <MenuRow
