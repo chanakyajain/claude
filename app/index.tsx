@@ -16,39 +16,36 @@ export default function HomeScreen() {
     <>
       <ScrollView
         style={styles.screen}
-        contentContainerStyle={styles.content}
+        contentContainerStyle={[
+          styles.content,
+          { paddingTop: insets.top + spacing.sm },
+        ]}
         showsVerticalScrollIndicator={false}
       >
-        {/* Carousel at the very top; safe area handled by padding */}
-        <View style={{ paddingTop: insets.top }}>
-          <FeaturedCarousel />
+        <FeaturedCarousel />
+
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionTitle}>Browse by Category</Text>
+          <Text style={styles.totalCount}>{products.length} varieties</Text>
         </View>
 
-        {/* Content below carousel with standard padding */}
-        <View style={{ paddingTop: spacing.lg }}>
-          <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Browse by Category</Text>
-            <Text style={styles.totalCount}>{products.length} varieties</Text>
-          </View>
+        <View style={styles.categoryGrid}>
+          {categories.map((cat) => (
+            <Link
+              key={cat.key}
+              href={{ pathname: '/collection', params: { category: cat.key } }}
+              asChild
+            >
+              <Pressable style={styles.categoryTilePressable}>
+                <CategoryTile category={cat} />
+              </Pressable>
+            </Link>
+          ))}
+        </View>
 
-          <View style={styles.categoryGrid}>
-            {categories.map((cat) => (
-              <Link
-                key={cat.key}
-                href={{ pathname: '/collection', params: { category: cat.key } }}
-                asChild
-              >
-                <Pressable style={styles.categoryTilePressable}>
-                  <CategoryTile category={cat} />
-                </Pressable>
-              </Link>
-            ))}
-          </View>
-
-          <View style={styles.hoursCard}>
-            <Ionicons name="time-outline" size={18} color={colors.gold} />
-            <Text style={styles.hoursText}>{business.hours}</Text>
-          </View>
+        <View style={styles.hoursCard}>
+          <Ionicons name="time-outline" size={18} color={colors.gold} />
+          <Text style={styles.hoursText}>{business.hours}</Text>
         </View>
       </ScrollView>
 
@@ -62,7 +59,6 @@ const styles = StyleSheet.create({
   content: {
     paddingHorizontal: spacing.lg,
     paddingBottom: spacing.xxl,
-    paddingTop: 0,
   },
 
   sectionHeader: {
