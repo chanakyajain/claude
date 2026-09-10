@@ -23,6 +23,7 @@ export default function RootLayout() {
           <Stack.Screen name="collection" options={{ headerShown: false }} />
           <Stack.Screen name="locations" options={{ headerShown: false }} />
           <Stack.Screen name="contact" options={{ headerShown: false }} />
+          <Stack.Screen name="sales" options={{ headerShown: false }} />
           <Stack.Screen name="product/[slug]" options={{ headerShown: false }} />
         </Stack>
       </SafeAreaProvider>

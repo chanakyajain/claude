@@ -42,7 +42,7 @@ export default function MenuSheet({ visible, onClose }: MenuSheetProps) {
 
   // `navigate` reuses a screen already in the stack instead of pushing a
   // duplicate, so reopening the menu doesn't pile up history.
-  const go = (path: '/' | '/collection' | '/locations' | '/contact') => {
+  const go = (path: '/' | '/collection' | '/locations' | '/sales' | '/contact') => {
     onClose();
     router.navigate(path);
   };
@@ -111,6 +111,12 @@ export default function MenuSheet({ visible, onClose }: MenuSheetProps) {
               tint="#3B9BE8"
               label="Store Locator"
               onPress={() => go('/locations')}
+            />
+            <MenuRow
+              icon="pricetag"
+              tint="#F77F88"
+              label="On Sale"
+              onPress={() => go('/sales')}
             />
             <MenuRow
               icon="share-social"
