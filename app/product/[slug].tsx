@@ -39,6 +39,7 @@ export default function ProductScreen() {
         slug={product.slug}
         name={product.name}
         photos={getProductPhotos(product.slug)}
+        dotsBottom={insets.bottom + 160}
       />
 
       {/* Transparent overlay header, floating over the full-screen photo. */}
@@ -76,18 +77,20 @@ export default function ProductScreen() {
         />
         <GlassButton
           icon="call"
+          size={96}
           onPress={callUs}
           accessibilityLabel="Call us"
         />
         <GlassButton
           icon="images"
-          size={58}
+          size={116}
           tint="rgba(201, 162, 39, 0.4)"
           onPress={() => setSpacesOpen(true)}
           accessibilityLabel={`See ${product.name} in spaces`}
         />
         <GlassButton
           icon="logo-whatsapp"
+          size={96}
           tint="rgba(37, 211, 102, 0.4)"
           onPress={() => whatsAppUs(product.name)}
           accessibilityLabel="Message us on WhatsApp"
@@ -169,8 +172,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 0,
     right: 0,
-    top: -70,
-    bottom: -20,
+    top: -120,
+    bottom: -40,
   },
 
   missing: {

@@ -53,7 +53,7 @@ export const business = {
   name: 'Guru Granites',
   phone: '+919449445585',
   phoneDisplay: '+91 94494 45585',
-  email: 'gurukrupagranites@gmail.com',
+  email: 'chanakya@gurugranites.com',
   hours: 'Open Every Day · 7:00 AM – 11:00 PM',
   whatsappText: 'Hello Guru Granites, I would like to enquire about',
 } as const;

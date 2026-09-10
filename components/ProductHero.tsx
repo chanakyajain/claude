@@ -19,6 +19,8 @@ interface ProductHeroProps {
   slug: string;
   name: string;
   photos: ImageSourcePropType[];
+  /** Distance from the screen bottom for the dots, so they clear the action row. */
+  dotsBottom?: number;
 }
 
 /**
@@ -26,7 +28,7 @@ interface ProductHeroProps {
  * registered for the stone, with dot pagination; falls back to a single
  * placeholder frame so the layout holds before photos are added.
  */
-export default function ProductHero({ name, photos }: ProductHeroProps) {
+export default function ProductHero({ name, photos, dotsBottom = 128 }: ProductHeroProps) {
   const { width, height } = useWindowDimensions();
   const [index, setIndex] = useState(0);
   const frames = photos.length > 0 ? photos : [null];
@@ -70,7 +72,7 @@ export default function ProductHero({ name, photos }: ProductHeroProps) {
       />
 
       {frames.length > 1 && (
-        <View style={styles.dots}>
+        <View style={[styles.dots, { bottom: dotsBottom }]}>
           {frames.map((_, i) => (
             <View key={i} style={[styles.dot, i === index && styles.dotActive]} />
           ))}
@@ -96,8 +98,6 @@ const styles = StyleSheet.create({
 
   dots: {
     position: 'absolute',
-    // Clears the floating Call / In Spaces / WhatsApp row beneath it.
-    bottom: 128,
     left: 0,
     right: 0,
     flexDirection: 'row',
