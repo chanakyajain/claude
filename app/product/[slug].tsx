@@ -176,12 +176,11 @@ const styles = StyleSheet.create({
 
   floatingActions: {
     position: 'absolute',
-    left: 0,
-    right: 0,
+    left: spacing.lg,
+    right: spacing.lg,
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    gap: spacing.xl,
   },
   floatingActionsScrim: {
     position: 'absolute',
