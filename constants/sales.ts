@@ -10,6 +10,7 @@ export const saleItems: SaleItem[] = [
   {
     slug: 'era-white',
     name: 'ERA White',
+    originalPrice: 185,
     currentPrice: 75,
     squareFeetRemaining: 4500,
   },
@@ -30,6 +31,7 @@ export const saleItems: SaleItem[] = [
   {
     slug: 'k-white',
     name: 'K White',
+    originalPrice: 85,
     currentPrice: 50,
     squareFeetRemaining: 1000,
   },

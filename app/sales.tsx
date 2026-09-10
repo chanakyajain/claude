@@ -57,7 +57,7 @@ export default function SalesScreen() {
   return (
     <View style={styles.screen}>
       <View style={[styles.header, { paddingTop: insets.top + spacing.lg }]}>
-        <Text style={styles.title}>On Sale</Text>
+        <Text style={styles.title}>Clearance Stock</Text>
         <Text style={styles.subtitle}>{saleItems.length} items available</Text>
       </View>
 
@@ -82,9 +82,10 @@ const styles = StyleSheet.create({
     paddingBottom: spacing.lg,
     borderBottomWidth: 1,
     borderBottomColor: colors.border,
+    alignItems: 'center',
   },
-  title: { ...type.display, color: colors.text, marginBottom: spacing.sm },
-  subtitle: { ...type.caption, color: colors.textFaint },
+  title: { ...type.display, color: colors.text, marginBottom: spacing.sm, textAlign: 'center' },
+  subtitle: { ...type.caption, color: colors.textFaint, textAlign: 'center' },
 
   list: {
     padding: spacing.lg,
