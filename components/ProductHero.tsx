@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
+  Animated,
   FlatList,
   Image,
   type ImageSourcePropType,
@@ -32,6 +33,19 @@ export default function ProductHero({ name, photos, dotsBottom = 128 }: ProductH
   const { width, height } = useWindowDimensions();
   const [index, setIndex] = useState(0);
   const frames = photos.length > 0 ? photos : [null];
+  const arrowOpacity = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    // Only show arrow if there are multiple photos
+    if (frames.length <= 1) return;
+
+    // Fade out arrow after 2 seconds
+    Animated.timing(arrowOpacity, {
+      toValue: 0,
+      duration: 2000,
+      useNativeDriver: true,
+    }).start();
+  }, [frames.length, arrowOpacity]);
 
   const onScrollEnd = useCallback(
     (e: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -59,7 +73,6 @@ export default function ProductHero({ name, photos, dotsBottom = 128 }: ProductH
 
   return (
     <View style={{ height }}>
-
       <FlatList
         data={frames}
         keyExtractor={(_, i) => String(i)}
@@ -72,11 +85,20 @@ export default function ProductHero({ name, photos, dotsBottom = 128 }: ProductH
       />
 
       {frames.length > 1 && (
-        <View style={[styles.dots, { bottom: dotsBottom }]}>
-          {frames.map((_, i) => (
-            <View key={i} style={[styles.dot, i === index && styles.dotActive]} />
-          ))}
-        </View>
+        <>
+          <Animated.View
+            style={[styles.swipeHint, { opacity: arrowOpacity }]}
+            pointerEvents="none"
+          >
+            <Ionicons name="chevron-forward" size={40} color="rgba(255, 255, 255, 0.7)" />
+          </Animated.View>
+
+          <View style={[styles.dots, { bottom: dotsBottom }]}>
+            {frames.map((_, i) => (
+              <View key={i} style={[styles.dot, i === index && styles.dotActive]} />
+            ))}
+          </View>
+        </>
       )}
     </View>
   );
@@ -113,5 +135,13 @@ const styles = StyleSheet.create({
   dotActive: {
     backgroundColor: colors.gold,
     width: 16,
+  },
+
+  swipeHint: {
+    position: 'absolute',
+    right: spacing.lg,
+    top: '50%',
+    marginTop: -20,
+    zIndex: 5,
   },
 });
