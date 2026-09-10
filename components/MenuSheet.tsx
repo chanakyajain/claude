@@ -15,9 +15,11 @@ export default function MenuSheet({ visible, onClose }: MenuSheetProps) {
   const router = useRouter();
   const insets = useSafeAreaInsets();
 
-  const go = (path: '/collection' | '/locations' | '/contact') => {
+  // `navigate` reuses a screen already in the stack instead of pushing a
+  // duplicate, so repeatedly opening the menu doesn't pile up history.
+  const go = (path: '/' | '/collection' | '/locations' | '/contact') => {
     onClose();
-    router.push(path);
+    router.navigate(path);
   };
 
   const share = async () => {
@@ -43,6 +45,7 @@ export default function MenuSheet({ visible, onClose }: MenuSheetProps) {
           <Text style={styles.brand}>{business.name}</Text>
           <Text style={styles.tagline}>Premium Granite Suppliers</Text>
 
+          <MenuRow icon="home-outline" label="Home" onPress={() => go('/')} />
           <MenuRow icon="grid-outline" label="Browse Collection" onPress={() => go('/collection')} />
           <MenuRow icon="location-outline" label="Our Locations" onPress={() => go('/locations')} />
           <MenuRow icon="call-outline" label="Contact Us" onPress={() => go('/contact')} />

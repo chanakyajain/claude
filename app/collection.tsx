@@ -1,42 +1,48 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   FlatList,
   Pressable,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   View,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import StoneImage from '../../components/StoneImage';
+import GlassButton from '../components/GlassButton';
+import MenuSheet from '../components/MenuSheet';
+import StoneImage from '../components/StoneImage';
 import {
   categories,
   categoryLabel,
-  products,
   searchProducts,
   type CategoryKey,
   type Product,
-} from '../../constants/products';
-import { colors, radius, spacing, type } from '../../constants/theme';
+} from '../constants/products';
+import { colors, radius, spacing, type } from '../constants/theme';
 
 type Filter = CategoryKey | 'all';
 
+function toFilter(value: string | string[] | undefined): Filter {
+  return categories.some((c) => c.key === value) ? (value as CategoryKey) : 'all';
+}
+
 export default function CollectionScreen() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
   const params = useLocalSearchParams<{ category?: string }>();
 
-  const initialFilter = useMemo<Filter>(() => {
-    const fromParam = params.category;
-    return categories.some((c) => c.key === fromParam)
-      ? (fromParam as CategoryKey)
-      : 'all';
-  }, [params.category]);
-
-  const [filter, setFilter] = useState<Filter>(initialFilter);
+  const [filter, setFilter] = useState<Filter>(() => toFilter(params.category));
   const [query, setQuery] = useState('');
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  // This screen can stay mounted between visits, so follow the incoming
+  // category rather than keeping whichever one it first opened with.
+  useEffect(() => {
+    setFilter(toFilter(params.category));
+  }, [params.category]);
 
   const visible = useMemo(() => {
     const matched = searchProducts(query);
@@ -63,7 +69,17 @@ export default function CollectionScreen() {
   );
 
   return (
-    <View style={styles.screen}>
+    <View style={[styles.screen, { paddingTop: insets.top + spacing.sm }]}>
+      <View style={styles.header}>
+        <GlassButton
+          icon="menu"
+          onPress={() => setMenuOpen(true)}
+          accessibilityLabel="Open menu"
+        />
+        <Text style={styles.headerTitle}>Collection</Text>
+        <Text style={styles.headerCount}>{visible.length} varieties</Text>
+      </View>
+
       <View style={styles.searchRow}>
         <Ionicons name="search" size={18} color={colors.textFaint} />
         <TextInput
@@ -82,12 +98,8 @@ export default function CollectionScreen() {
         )}
       </View>
 
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        style={styles.chipScroller}
-        contentContainerStyle={styles.chipRow}
-      >
+      {/* Wraps onto as many rows as needed so no chip is ever cut off. */}
+      <View style={styles.chipRow}>
         <Chip label="All" active={filter === 'all'} onPress={() => setFilter('all')} />
         {categories.map((cat) => (
           <Chip
@@ -97,11 +109,7 @@ export default function CollectionScreen() {
             onPress={() => setFilter(cat.key)}
           />
         ))}
-      </ScrollView>
-
-      <Text style={styles.resultCount}>
-        {visible.length} of {products.length} varieties
-      </Text>
+      </View>
 
       <FlatList
         data={visible}
@@ -118,6 +126,8 @@ export default function CollectionScreen() {
           </View>
         }
       />
+
+      <MenuSheet visible={menuOpen} onClose={() => setMenuOpen(false)} />
     </View>
   );
 }
@@ -146,6 +156,16 @@ function Chip({
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.bg },
 
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.md,
+    paddingHorizontal: spacing.lg,
+    marginBottom: spacing.lg,
+  },
+  headerTitle: { ...type.title, color: colors.text, flex: 1 },
+  headerCount: { ...type.caption, color: colors.gold },
+
   searchRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -165,10 +185,12 @@ const styles = StyleSheet.create({
     padding: 0,
   },
 
-  chipScroller: { flexGrow: 0, marginTop: spacing.md },
   chipRow: {
-    paddingHorizontal: spacing.lg,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
     gap: spacing.sm,
+    paddingHorizontal: spacing.lg,
+    marginTop: spacing.md,
   },
   chip: {
     paddingHorizontal: spacing.lg,
@@ -182,19 +204,11 @@ const styles = StyleSheet.create({
     backgroundColor: colors.gold,
     borderColor: colors.gold,
   },
-  chipText: { ...type.caption, color: colors.textMuted },
+  chipText: { ...type.caption, lineHeight: 18, color: colors.textMuted },
   chipTextActive: { color: colors.bg, fontWeight: '700' },
-
-  resultCount: {
-    ...type.caption,
-    color: colors.textFaint,
-    marginHorizontal: spacing.lg,
-    marginTop: spacing.md,
-  },
 
   grid: {
     padding: spacing.lg,
-    paddingTop: spacing.md,
     gap: spacing.md,
   },
   column: { gap: spacing.md },

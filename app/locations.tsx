@@ -1,8 +1,8 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Alert, Linking, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import { locations, type Location } from '../../constants/locations';
-import { colors, radius, spacing, type } from '../../constants/theme';
+import { locations, type Location } from '../constants/locations';
+import { colors, radius, spacing, type } from '../constants/theme';
 
 export default function LocationsScreen() {
   const openDirections = async (place: Location) => {

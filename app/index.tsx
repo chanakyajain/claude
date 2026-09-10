@@ -4,12 +4,12 @@ import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import CategoryTile from '../../components/CategoryTile';
-import FeaturedCarousel from '../../components/FeaturedCarousel';
-import GlassButton from '../../components/GlassButton';
-import MenuSheet from '../../components/MenuSheet';
-import { categories, products } from '../../constants/products';
-import { business, colors, radius, spacing, type } from '../../constants/theme';
+import CategoryTile from '../components/CategoryTile';
+import FeaturedCarousel from '../components/FeaturedCarousel';
+import GlassButton from '../components/GlassButton';
+import MenuSheet from '../components/MenuSheet';
+import { categories, products } from '../constants/products';
+import { business, colors, radius, spacing, type } from '../constants/theme';
 
 export default function HomeScreen() {
   const insets = useSafeAreaInsets();

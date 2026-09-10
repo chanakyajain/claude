@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Alert, Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import { business, colors, radius, spacing, type } from '../../constants/theme';
+import { business, colors, radius, spacing, type } from '../constants/theme';
 
 export default function ContactScreen() {
   const open = async (url: string, label: string) => {
