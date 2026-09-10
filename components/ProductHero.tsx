@@ -96,7 +96,8 @@ const styles = StyleSheet.create({
 
   dots: {
     position: 'absolute',
-    bottom: spacing.md,
+    // Clears the floating Call / In Spaces / WhatsApp row beneath it.
+    bottom: 128,
     left: 0,
     right: 0,
     flexDirection: 'row',
