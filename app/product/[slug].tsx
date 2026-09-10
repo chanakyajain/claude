@@ -2,7 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Alert, Linking, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import GlassButton from '../../components/GlassButton';
@@ -11,7 +11,8 @@ import ProductHero from '../../components/ProductHero';
 import SpacesModal from '../../components/SpacesModal';
 import { getProductPhotos, getSpacePhotos } from '../../constants/photos';
 import { CARE_NOTE, categoryLabel, findProduct } from '../../constants/products';
-import { business, colors, radius, spacing, type } from '../../constants/theme';
+import { colors, radius, spacing, type } from '../../constants/theme';
+import { callUs, whatsAppUs } from '../../lib/links';
 
 export default function ProductScreen() {
   const { slug } = useLocalSearchParams<{ slug: string }>();
@@ -29,24 +30,6 @@ export default function ProductScreen() {
       </View>
     );
   }
-
-  const openUrl = async (url: string, label: string) => {
-    try {
-      await Linking.openURL(url);
-    } catch {
-      Alert.alert('Unable to open', `Could not start ${label} on this device.`);
-    }
-  };
-
-  const callUs = () => openUrl(`tel:${business.phone}`, 'the phone dialler');
-
-  const messageUs = () => {
-    const text = encodeURIComponent(`${business.whatsappText} ${product.name}.`);
-    openUrl(
-      `whatsapp://send?phone=${business.phone.replace('+', '')}&text=${text}`,
-      'WhatsApp'
-    );
-  };
 
   const needsCareNote = product.type === 'marble' || product.type === 'onyx';
 
@@ -106,7 +89,7 @@ export default function ProductScreen() {
         <GlassButton
           icon="logo-whatsapp"
           tint="rgba(37, 211, 102, 0.4)"
-          onPress={messageUs}
+          onPress={() => whatsAppUs(product.name)}
           accessibilityLabel="Message us on WhatsApp"
         />
       </View>

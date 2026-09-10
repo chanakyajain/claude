@@ -21,8 +21,8 @@ export default function RootLayout() {
         >
           <Stack.Screen name="index" options={{ headerShown: false }} />
           <Stack.Screen name="collection" options={{ headerShown: false }} />
-          <Stack.Screen name="locations" options={{ title: 'Locations' }} />
-          <Stack.Screen name="contact" options={{ title: 'Contact' }} />
+          <Stack.Screen name="locations" options={{ headerShown: false }} />
+          <Stack.Screen name="contact" options={{ headerShown: false }} />
           <Stack.Screen name="product/[slug]" options={{ headerShown: false }} />
         </Stack>
       </SafeAreaProvider>
