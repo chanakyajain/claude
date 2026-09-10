@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 
 import StoneImage from './StoneImage';
+import { getProductPhotos } from '../constants/photos';
 import { findProduct, type Product } from '../constants/products';
 import { colors, radius, spacing, type } from '../constants/theme';
 
@@ -23,8 +24,8 @@ const FEATURED_SLUGS = [
   'black-galaxy-small-flower',
   'alaska-white',
   'tan-brown',
-  'blue-pearl',
-  'emerald-green',
+  'blue-in-the-night',
+  'peacock-green',
   'diamond-black',
 ];
 
@@ -42,9 +43,11 @@ export default function FeaturedCarousel() {
   const listRef = useRef<FlatList<Product>>(null);
   const indexRef = useRef(0);
 
-  const stones = FEATURED_SLUGS.map((slug) => findProduct(slug)).filter(
-    (p): p is Product => Boolean(p)
-  );
+  // Skip any stone without a photo — a "Photo coming soon" placeholder is a
+  // poor thing to headline the home screen with.
+  const stones = FEATURED_SLUGS.map((slug) => findProduct(slug))
+    .filter((p): p is Product => p !== undefined)
+    .filter((p) => getProductPhotos(p.slug).length > 0);
 
   useEffect(() => {
     if (stones.length < 2) return;

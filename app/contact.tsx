@@ -1,17 +1,14 @@
 import { Ionicons } from '@expo/vector-icons';
-import { useState } from 'react';
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import GlassButton from '../components/GlassButton';
-import MenuSheet from '../components/MenuSheet';
+import FloatingMenuButton from '../components/FloatingMenuButton';
 import { locations } from '../constants/locations';
 import { business, colors, radius, spacing, type } from '../constants/theme';
 import { callUs, emailUs, openMaps, whatsAppUs } from '../lib/links';
 
 export default function ContactScreen() {
   const insets = useSafeAreaInsets();
-  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <>
@@ -23,14 +20,6 @@ export default function ContactScreen() {
         ]}
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.topRow}>
-          <GlassButton
-            icon="menu"
-            onPress={() => setMenuOpen(true)}
-            accessibilityLabel="Open menu"
-          />
-        </View>
-
         <View style={styles.brandBlock}>
           <Image
             source={require('../assets/brand/logo.png')}
@@ -112,7 +101,7 @@ export default function ContactScreen() {
         </View>
       </ScrollView>
 
-      <MenuSheet visible={menuOpen} onClose={() => setMenuOpen(false)} />
+      <FloatingMenuButton />
     </>
   );
 }
@@ -156,11 +145,9 @@ const styles = StyleSheet.create({
     paddingBottom: spacing.xxl,
   },
 
-  topRow: { alignItems: 'flex-start' },
-
   brandBlock: {
     alignItems: 'center',
-    marginTop: spacing.lg,
+    marginTop: spacing.xxl,
     marginBottom: spacing.xxl,
   },
   logo: { width: 64, height: 64, marginBottom: spacing.lg },

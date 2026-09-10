@@ -713,14 +713,3 @@ export function findProduct(slug: string): Product | undefined {
 export function categoryLabel(key: CategoryKey): string {
   return categories.find((c) => c.key === key)?.label ?? key;
 }
-
-/** Case-insensitive search across stone name and category label. */
-export function searchProducts(query: string): Product[] {
-  const q = query.trim().toLowerCase();
-  if (!q) return products;
-  return products.filter(
-    (p) =>
-      p.name.toLowerCase().includes(q) ||
-      categoryLabel(p.category).toLowerCase().includes(q)
-  );
-}

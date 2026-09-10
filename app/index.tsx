@@ -1,19 +1,16 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Link } from 'expo-router';
-import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import CategoryTile from '../components/CategoryTile';
 import FeaturedCarousel from '../components/FeaturedCarousel';
-import GlassButton from '../components/GlassButton';
-import MenuSheet from '../components/MenuSheet';
+import FloatingMenuButton from '../components/FloatingMenuButton';
 import { categories, products } from '../constants/products';
 import { business, colors, radius, spacing, type } from '../constants/theme';
 
 export default function HomeScreen() {
   const insets = useSafeAreaInsets();
-  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <>
@@ -21,18 +18,10 @@ export default function HomeScreen() {
         style={styles.screen}
         contentContainerStyle={[
           styles.content,
-          { paddingTop: insets.top + spacing.lg },
+          { paddingTop: insets.top + spacing.sm },
         ]}
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.topRow}>
-          <GlassButton
-            icon="menu"
-            onPress={() => setMenuOpen(true)}
-            accessibilityLabel="Open menu"
-          />
-        </View>
-
         <FeaturedCarousel />
 
         <View style={styles.sectionHeader}>
@@ -60,7 +49,7 @@ export default function HomeScreen() {
         </View>
       </ScrollView>
 
-      <MenuSheet visible={menuOpen} onClose={() => setMenuOpen(false)} />
+      <FloatingMenuButton />
     </>
   );
 }
@@ -70,11 +59,6 @@ const styles = StyleSheet.create({
   content: {
     paddingHorizontal: spacing.lg,
     paddingBottom: spacing.xxl,
-  },
-
-  topRow: {
-    alignItems: 'flex-start',
-    marginBottom: spacing.lg,
   },
 
   sectionHeader: {
