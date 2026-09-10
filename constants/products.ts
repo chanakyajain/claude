@@ -486,6 +486,14 @@ export const products: Product[] = [
       'China White is a clean, bright white granite with subtle grey flecks that keep the surface feeling light and contemporary. Its crisp, neutral character opens up a room and pairs beautifully with almost any colour scheme. It works wonderfully on worktops, islands and bathrooms where a fresh, modern look is wanted. Hard-wearing and easy to maintain with simple sealing, China White brings a clean, airy elegance that suits both minimalist and classic interiors.',
   },
   {
+    slug: 'arctic-white',
+    name: 'Arctic White',
+    category: 'white',
+    type: 'granite',
+    description:
+      'Arctic White is a pristine white granite with subtle icy veining that creates a cool, fresh aesthetic perfect for modern spaces. Its clean, minimalist pattern keeps the surface bright and airy, making it ideal for worktops, islands and bathrooms. The understated elegance pairs beautifully with contemporary cabinetry and chrome finishes. Hard-wearing and easy to maintain with simple sealing, Arctic White delivers a crisp, sophisticated look that brightens any interior.',
+  },
+  {
     slug: 'era-white',
     name: 'Era White',
     category: 'white',
@@ -534,12 +542,28 @@ export const products: Product[] = [
       'Gelatic White is a smooth, snow-toned white granite with subtle speckling that keeps the surface bright and minimal. Its clean, even character makes it endlessly versatile, opening up a room and complementing any palette. It works wonderfully on worktops, islands and bathrooms in light, modern schemes. Hard-wearing and easy to maintain with simple sealing, Gelatic White offers a fresh, crisp look that feels both calm and contemporary.',
   },
   {
+    slug: 'glacier-white',
+    name: 'Glacier White',
+    category: 'white',
+    type: 'granite',
+    description:
+      'Glacier White is a bright white granite with subtle grey and pale blue undertones that evoke the icy clarity of glacial ice. The refined, minimal pattern keeps the surface clean and contemporary while adding a touch of cool elegance. It works beautifully on worktops, islands and bathrooms in modern schemes. Hard-wearing and easy to maintain with simple sealing, Glacier White brings a fresh, crystalline quality to any space.',
+  },
+  {
     slug: 'ice-white',
     name: 'Ice White',
     category: 'white',
     type: 'granite',
     description:
       'Ice White is a crisp, cool white granite with fine grey grain that gives it a clean, modern edge. The subtle texture keeps the surface interesting while staying bright and neutral. It pairs beautifully with chrome, glass and pale cabinetry for a sleek, contemporary scheme and works well on worktops, floors and cladding. Durable and low-maintenance with regular sealing, Ice White brings a fresh, icy clarity to kitchens and bathrooms alike.',
+  },
+  {
+    slug: 'k-white',
+    name: 'K White',
+    category: 'white',
+    type: 'granite',
+    description:
+      'K White is a light, neutral white granite with subtle grey flecks that create a soft, balanced surface. The minimal pattern makes it incredibly versatile, working seamlessly with any design scheme or cabinetry colour. Ideal for worktops, islands and vanities in both modern and traditional interiors. Hard-wearing and easy to maintain with simple sealing, K White offers a clean, understated elegance that complements any space.',
   },
   {
     slug: 'maharaja-white',

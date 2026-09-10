@@ -15,8 +15,8 @@ export const saleItems: SaleItem[] = [
     squareFeetRemaining: 4500,
   },
   {
-    slug: 'river-white',
-    name: 'River White',
+    slug: 'arctic-white',
+    name: 'Arctic White',
     originalPrice: 220,
     currentPrice: 140,
     squareFeetRemaining: 1000,
